@@ -5,3 +5,22 @@
 .pub/
 
 build/
+
+# IDE files
+.idea/
+*.iml
+
+# Gradle
+.gradle/
+local.properties
+
+# Flutter
+.flutter-plugins-dependencies
+.metadata
+pubspec.lock
+
+# VS Code
+.history/
+
+*.idea/libraries
+*.example/
