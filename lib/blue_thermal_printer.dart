@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 
@@ -18,13 +17,17 @@ class BlueThermalPrinter {
 
   static const String namespace = 'blue_thermal_printer';
 
-  static const MethodChannel _channel = const MethodChannel('$namespace/methods');
+  static const MethodChannel _channel =
+      const MethodChannel('$namespace/methods');
 
-  static const EventChannel _readChannel = const EventChannel('$namespace/read');
+  static const EventChannel _readChannel =
+      const EventChannel('$namespace/read');
 
-  static const EventChannel _stateChannel = const EventChannel('$namespace/state');
+  static const EventChannel _stateChannel =
+      const EventChannel('$namespace/state');
 
-  final StreamController<MethodCall> _methodStreamController = new StreamController.broadcast();
+  final StreamController<MethodCall> _methodStreamController =
+      new StreamController.broadcast();
 
   //Stream<MethodCall> get _methodStream => _methodStreamController.stream;
 
@@ -46,15 +49,19 @@ class BlueThermalPrinter {
   }
 
   ///onRead()
-  Stream<String> onRead() => _readChannel.receiveBroadcastStream().map((buffer) => buffer.toString());
+  Stream<String> onRead() =>
+      _readChannel.receiveBroadcastStream().map((buffer) => buffer.toString());
 
-  Future<bool?> get isAvailable async => await _channel.invokeMethod('isAvailable');
+  Future<bool?> get isAvailable async =>
+      await _channel.invokeMethod('isAvailable');
 
   Future<bool?> get isOn async => await _channel.invokeMethod('isOn');
 
-  Future<bool?> get isConnected async => await _channel.invokeMethod('isConnected');
+  Future<bool?> get isConnected async =>
+      await _channel.invokeMethod('isConnected');
 
-  Future<bool?> get openSettings async => await _channel.invokeMethod('openSettings');
+  Future<bool?> get openSettings async =>
+      await _channel.invokeMethod('openSettings');
 
   ///getBondedDevices()
   Future<List<BluetoothDevice>> getBondedDevices() async {
@@ -63,19 +70,23 @@ class BlueThermalPrinter {
   }
 
   ///isDeviceConnected(BluetoothDevice device)
-  Future<bool?> isDeviceConnected(BluetoothDevice device) => _channel.invokeMethod('isDeviceConnected', device.toMap());
+  Future<bool?> isDeviceConnected(BluetoothDevice device) =>
+      _channel.invokeMethod('isDeviceConnected', device.toMap());
 
   ///connect(BluetoothDevice device)
-  Future<dynamic> connect(BluetoothDevice device) => _channel.invokeMethod('connect', device.toMap());
+  Future<dynamic> connect(BluetoothDevice device) =>
+      _channel.invokeMethod('connect', device.toMap());
 
   ///disconnect()
   Future<dynamic> disconnect() => _channel.invokeMethod('disconnect');
 
   ///write(String message)
-  Future<dynamic> write(String message) => _channel.invokeMethod('write', {'message': message});
+  Future<dynamic> write(String message) =>
+      _channel.invokeMethod('write', {'message': message});
 
   ///writeBytes(Uint8List message)
-  Future<dynamic> writeBytes(Uint8List message) => _channel.invokeMethod('writeBytes', {'message': message});
+  Future<dynamic> writeBytes(Uint8List message) =>
+      _channel.invokeMethod('writeBytes', {'message': message});
 //writeBytes(Uint8List message)
   Future<dynamic> defaultWriteBytes(Uint8List message) =>
       _channel.invokeMethod('defaultwriteBytes', {'message': message});
@@ -85,8 +96,14 @@ class BlueThermalPrinter {
       _channel.invokeMethod('writeBytesNoFeed', {'message': message});
 
   ///printCustom(String message, int size, int align,{String? charset})
-  Future<dynamic> printCustom(String message, int size, int align, {String? charset}) =>
-      _channel.invokeMethod('printCustom', {'message': message, 'size': size, 'align': align, 'charset': charset});
+  Future<dynamic> printCustom(String message, int size, int align,
+          {String? charset}) =>
+      _channel.invokeMethod('printCustom', {
+        'message': message,
+        'size': size,
+        'align': align,
+        'charset': charset
+      });
 
   ///printNewLine()
   Future<dynamic> printNewLine() => _channel.invokeMethod('printNewLine');
@@ -101,22 +118,37 @@ class BlueThermalPrinter {
   Future<dynamic> drawerPin5() => _channel.invokeMethod('drawerPin5');
 
   ///printImage(String pathImage)
-  Future<dynamic> printImage(String pathImage) => _channel.invokeMethod('printImage', {'pathImage': pathImage});
+  Future<dynamic> printImage(String pathImage) =>
+      _channel.invokeMethod('printImage', {'pathImage': pathImage});
 
   ///printImageBytes(Uint8List bytes)
-  Future<dynamic> printImageBytes(Uint8List bytes) => _channel.invokeMethod('printImageBytes', {'bytes': bytes});
+  Future<dynamic> printImageBytes(Uint8List bytes) =>
+      _channel.invokeMethod('printImageBytes', {'bytes': bytes});
 
   ///printQRcode(String textToQR, int width, int height, int align)
-  Future<dynamic> printQRcode(String textToQR, int width, int height, int align) =>
-      _channel.invokeMethod('printQRcode', {'textToQR': textToQR, 'width': width, 'height': height, 'align': align});
+  Future<dynamic> printQRcode(
+          String textToQR, int width, int height, int align) =>
+      _channel.invokeMethod('printQRcode', {
+        'textToQR': textToQR,
+        'width': width,
+        'height': height,
+        'align': align
+      });
 
   ///printLeftRight(String string1, String string2, int size,{String? charset, String? format})
-  Future<dynamic> printLeftRight(String string1, String string2, int size, {String? charset, String? format}) =>
-      _channel.invokeMethod('printLeftRight',
-          {'string1': string1, 'string2': string2, 'size': size, 'charset': charset, 'format': format});
+  Future<dynamic> printLeftRight(String string1, String string2, int size,
+          {String? charset, String? format}) =>
+      _channel.invokeMethod('printLeftRight', {
+        'string1': string1,
+        'string2': string2,
+        'size': size,
+        'charset': charset,
+        'format': format
+      });
 
   ///print3Column(String string1, String string2, String string3, int size,{String? charset, String? format})
-  Future<dynamic> print3Column(String string1, String string2, String string3, int size,
+  Future<dynamic> print3Column(
+          String string1, String string2, String string3, int size,
           {String? charset, String? format}) =>
       _channel.invokeMethod('print3Column', {
         'string1': string1,
@@ -128,7 +160,8 @@ class BlueThermalPrinter {
       });
 
   ///print4Column(String string1, String string2, String string3,String string4, int size,{String? charset, String? format})
-  Future<dynamic> print4Column(String string1, String string2, String string3, String string4, int size,
+  Future<dynamic> print4Column(String string1, String string2, String string3,
+          String string4, int size,
           {String? charset, String? format}) =>
       _channel.invokeMethod('print4Column', {
         'string1': string1,
@@ -141,14 +174,18 @@ class BlueThermalPrinter {
       });
 
   ///writeBytesGP1324D(Uint8List message) - Specialized write function for GP1324D printer
-  Future<dynamic> writeBytesGP1324D(Uint8List message) => _channel.invokeMethod('writeBytesGP1324D', {'message': message});
+  Future<dynamic> writeBytesGP1324D(Uint8List message) =>
+      _channel.invokeMethod('writeBytesGP1324D', {'message': message});
 
   ///writeBytesGP1324DNoSpacing(Uint8List message) - GP1324D write function without extra blank spaces
-  Future<dynamic> writeBytesGP1324DNoSpacing(Uint8List message) => _channel.invokeMethod('writeBytesGP1324DNoSpacing', {'message': message});
+  Future<dynamic> writeBytesGP1324DNoSpacing(Uint8List message) =>
+      _channel.invokeMethod('writeBytesGP1324DNoSpacing', {'message': message});
 
   ///printReceiptGP1324D(String content, {int fontSize = 1, int align = 0}) - Receipt printing function for GP1324D printer
-  Future<dynamic> printReceiptGP1324D(String content, {int fontSize = 1, int align = 0}) =>
-      _channel.invokeMethod('printReceiptGP1324D', {'content': content, 'fontSize': fontSize, 'align': align});
+  Future<dynamic> printReceiptGP1324D(String content,
+          {int fontSize = 1, int align = 0}) =>
+      _channel.invokeMethod('printReceiptGP1324D',
+          {'content': content, 'fontSize': fontSize, 'align': align});
 
   /// clearBuffer() - Fix white paper on power-on issue
   /// Usage: Call after connect() to clear residual data

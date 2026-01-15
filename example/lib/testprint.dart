@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-import 'package:blue_thermal_printer_example/printerenum.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
@@ -17,19 +15,20 @@ class TestPrint {
     String filename = 'yourlogo.png';
     ByteData bytesData = await rootBundle.load("assets/images/yourlogo.png");
     String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = await File('$dir/$filename')
-        .writeAsBytes(bytesData.buffer.asUint8List(bytesData.offsetInBytes, bytesData.lengthInBytes));
+    File file = await File('$dir/$filename').writeAsBytes(bytesData.buffer
+        .asUint8List(bytesData.offsetInBytes, bytesData.lengthInBytes));
 
     ///image from Asset
     ByteData bytesAsset = await rootBundle.load("assets/images/yourlogo.png");
-    Uint8List imageBytesFromAsset = bytesAsset.buffer.asUint8List(bytesAsset.offsetInBytes, bytesAsset.lengthInBytes);
+    Uint8List imageBytesFromAsset = bytesAsset.buffer
+        .asUint8List(bytesAsset.offsetInBytes, bytesAsset.lengthInBytes);
 
     ///image from Network
     var response = await http.get(Uri.parse(
         "https://raw.githubusercontent.com/kakzaki/blue_thermal_printer/master/example/assets/images/yourlogo.png"));
     Uint8List bytesNetwork = response.bodyBytes;
-    Uint8List imageBytesFromNetwork =
-        bytesNetwork.buffer.asUint8List(bytesNetwork.offsetInBytes, bytesNetwork.lengthInBytes);
+    Uint8List imageBytesFromNetwork = bytesNetwork.buffer
+        .asUint8List(bytesNetwork.offsetInBytes, bytesNetwork.lengthInBytes);
     final byteData = [
       27,
       97,
