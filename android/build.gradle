@@ -31,7 +31,7 @@ android {
         targetCompatibility JavaVersion.VERSION_21
     }
     defaultConfig {
-        minSdkVersion 29
+        minSdkVersion 28
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
