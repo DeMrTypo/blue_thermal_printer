@@ -23,4 +23,6 @@ pubspec.lock
 .history/
 
 *.idea/libraries
-*.example/
+
+# Logs
+*.log
