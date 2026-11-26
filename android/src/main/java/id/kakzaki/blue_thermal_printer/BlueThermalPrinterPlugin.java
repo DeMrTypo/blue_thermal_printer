@@ -52,7 +52,6 @@ import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,MethodCallHandler, RequestPermissionsResultListener {
 
@@ -2300,8 +2299,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
           break;
       }
       BitMatrix bitMatrix = multiFormatWriter.encode(textToQR, BarcodeFormat.QR_CODE, width, height);
-      BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-      Bitmap bmp = barcodeEncoder.createBitmap(bitMatrix);
+      Bitmap bmp = createBitmapFromMatrix(bitMatrix);
       if (bmp != null) {
         byte[] command = Utils.decodeBitmap(bmp);
         THREAD.write(command);
@@ -2313,6 +2311,21 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       Log.e(TAG, ex.getMessage(), ex);
       result.error("write_error", ex.getMessage(), exceptionToString(ex));
     }
+  }
+
+  private Bitmap createBitmapFromMatrix(BitMatrix matrix) {
+    int width = matrix.getWidth();
+    int height = matrix.getHeight();
+    int[] pixels = new int[width * height];
+    for (int y = 0; y < height; y++) {
+      int offset = y * width;
+      for (int x = 0; x < width; x++) {
+        pixels[offset + x] = matrix.get(x, y) ? 0xFF000000 : 0xFFFFFFFF;
+      }
+    }
+    Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+    bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+    return bitmap;
   }
 
   private class ConnectedThread extends Thread {
